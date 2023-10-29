@@ -1,0 +1,21 @@
+pipeline {
+agent any
+        stages {
+            stage('checkout') {
+                steps {
+                    git branch: 'main', url: 'https://github.com/DmytroKyslyiNure/lab1.git'
+                }
+            }
+            stage('terraform action') {
+                steps {
+                    git url:'https://github.com/DmytroKyslyiNure/lab1.git', branch: "main"
+                    echo "Terraform action is --> ${action}"
+                    sh '''
+                    cd ec2_instance
+                    ls
+                    terraform init
+                    terraform ${action} -auto-approve '''
+                }
+            }
+        }
+}
